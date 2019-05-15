@@ -42,3 +42,30 @@ When discovered, the conspiring peer can be disconnected from cutting off the il
 
 In a perfect situation, the star topology is achieved and grows without gaps and peers cross-validate.
 A malicious peer will visually show up as a gap in the network topology, which can be provided to the peers to inspect.
+
+## The Flow
+
+- Server starts
+
+- Client A connects to room R
+- Room R opens
+- Server notifies client A about their arrival
+- Client A refused to connect to themselves since no key was provided
+- Client A invites client B to room R with key K - offline
+
+- Client B connects to room R with key K
+- Room R exists
+- Server notifies clients A and B about client B's arrival
+- Client A connects to client B as their key matches their invite
+- Client B refuses to connect to themselves since unknown key was provided (they do not invite)
+- Client B invites client C to room R with key L - offline
+- Client B notifies client A about the client C invite - WebRTC (to avoid MITM)
+
+- Client C connects to room R with key L
+- Room R exists
+- Server notifies clients A, B and C about client C's arrival
+- Client A connects to client C as their key matches client B's invite they shared
+- Client B connects to client C as their key matches their invite
+- Client C refuses to connect to themselves since unknown key was provided (they do not invite)
+
+- Etc…
